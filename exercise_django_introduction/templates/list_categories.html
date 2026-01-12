@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Categories</title>
+</head>
+<body>
+
+   {% for category in categories %}
+        <li>{{ category.name }}</li>
+
+    {% empty %}
+        <p>No categories yet</p>
+    {% endfor %}
+    
+<a href="{% url 'index' %}">Home</a>
+
+</body>
+</html>

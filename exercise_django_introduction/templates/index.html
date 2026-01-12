@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notes</title>
+</head>
+<body>
+    <h1>Notes</h1>
+
+    <nav>
+        <a href="{% url 'index' %}">Home</a>
+        <a href="{% url 'list_categories' %}">Categories</a>
+    </nav>
+
+    <form>
+        <input name="q" placeholder="Search Notes">
+        <button>Search</button>
+    </form>
+    {% for note in notes %}
+        <li>{{ note.title }}: category: {{ note.category.name }} : {{ note.category.description }}</li>
+
+    {% empty %}
+        <p>No categories yet</p>
+    {% endfor %}
+
+</body>
+</html>
