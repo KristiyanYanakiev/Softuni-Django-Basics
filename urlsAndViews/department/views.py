@@ -1,9 +1,10 @@
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
 
 # Create your views here.
-def home_view(request: HttpRequest) -> HttpResponse:
-    return HttpResponse('Hello World')
+def home_view(request: HttpRequest, pk: int) -> HttpResponse:
+    return render(request, 'home.html', {'pk': pk})
 
 def view_types_home_view(request):
     return HttpResponse('Home page')
@@ -25,3 +26,6 @@ def path_view(request, path: str):
 
 def uuid_view(request, uuid: str):
     return HttpResponse(f"{uuid} is a {type(uuid)}", content_type='text/plain')
+
+def redirect_view(request, pk):
+    return redirect('home', pk=pk)
