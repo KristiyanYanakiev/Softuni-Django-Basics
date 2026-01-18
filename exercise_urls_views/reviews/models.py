@@ -1,0 +1,20 @@
+from django.db import models
+
+from common.models import TimeStampModel
+
+
+# Create your models here.
+class Review(TimeStampModel):
+    author = models.CharField(
+        max_length=100
+    )
+    body = models.TextField()
+    rating = models.DecimalField(max_digits=4, decimal_places=2)
+    destination = models.ForeignKey(
+        to='destinations.Destination',
+        on_delete=models.CASCADE,
+        related_name='reviews'
+    )
+    is_published = models.BooleanField(
+        default=True,
+    )
