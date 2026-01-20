@@ -1,0 +1,13 @@
+{% extends 'common/home_page.html' %}
+{% block content %}
+
+        <ul>
+            {% for review in reviews %}
+            <li>
+                <p>{{ review.author }}</p>
+                <p>{{ review.body }}</p>
+                <p>{{ book.rating }}</p>
+            {% endfor %}
+        </ul>
+
+{% endblock %}

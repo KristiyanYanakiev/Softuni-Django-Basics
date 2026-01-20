@@ -1,0 +1,12 @@
+{% extends 'common/home_page.html' %}
+{% block content %}
+    <div>
+        <h2>Here are the {{ book.title }} details</h2>
+        <div>
+            <p>{{ book.author }}</p>
+            <p>{{ book.price }}</p>
+            <p>{{ book.genre }}</p>
+            <p>{{ book.description }}</p>
+        </div>
+    </div>
+{% endblock %}
