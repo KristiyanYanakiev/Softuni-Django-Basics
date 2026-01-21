@@ -4,9 +4,8 @@
         <ul>
             {% for review in reviews %}
             <li>
-                <p>{{ review.author }}</p>
-                <p>{{ review.body }}</p>
-                <p>{{ book.rating }}</p>
+                {% include 'reviews/_review_card.html' %}
+            </li>
             {% endfor %}
         </ul>
 

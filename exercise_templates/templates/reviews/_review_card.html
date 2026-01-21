@@ -1,0 +1,25 @@
+
+    <article class="review-card">
+    <header>
+        <h3>{{ review.author }}'s review about the book: {{ review.book.title }}</h3>
+    </header>
+
+    <section>
+
+        <p>
+            <strong>Rating:</strong>
+            {{ review.rating }}
+
+        </p>
+
+        <p>
+            {{ review.body|truncatewords:1|default:"No review content available." }}
+        </p>
+    </section>
+
+    <footer>
+        <small>
+            Posted on {{ review.created_at|date:"F j, Y" }}
+        </small>
+    </footer>
+</article>

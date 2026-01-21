@@ -14,7 +14,7 @@ def book_reviews(request, slug):
     return render(request, 'reviews/review_details.html', context)
 
 def recent_views(request):
-    reviews = Review.objects.order_by('-created_at')[:1]
+    reviews = Review.objects.order_by('-created_at')[:5]
 
     context = {
         'reviews': reviews

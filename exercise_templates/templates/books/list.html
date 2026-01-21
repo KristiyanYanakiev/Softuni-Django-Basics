@@ -1,25 +1,7 @@
 {% extends 'common/home_page.html' %}
 {% block content %}
     {% for book in books %}
-        <ul>
-            <li>
-                <p>{{ book.author }}</p>
-                <p>{{ book.title }}</p>
-                <p>{{ book.price }}</p>
-                <a href="{% url 'books:book_details' book.pk %}">Book details</a>
-                <a href="{% url 'review' book.slug %}">Read Reviews</a>
-                <ul>
-                    {% for review in reviews %}
-                        <li>
-                            <p>{{ review.author }}</p>
-                            <p>{{ review.body }}</p>
-                            <p>Rating: {{ review.rating }}</p>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </li>
-
-        </ul>
+       {% include 'books/_book_card.html' %}
     {% empty %}
     <h2>No books</h2>
     {% endfor %}
