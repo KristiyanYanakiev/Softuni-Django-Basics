@@ -1,8 +1,9 @@
 {% extends 'common/home_page.html' %}
 {% block content %}
     {% for book in books %}
-       {% include 'books/_book_card.html' %}
+        {% include 'books/_book_card.html'%}
     {% empty %}
     <h2>No books</h2>
     {% endfor %}
 {% endblock %}
+

@@ -14,27 +14,21 @@
     >
      <link rel="stylesheet" href="{% static 'css/custom_css.css' %}">
 </head>
-<body>
+<body class="container .bg-light.bg-gradient min-vh-100">
     <h1>Welcome to our Book reviews application!</h1>
-     <nav>
-        <ul class="navbar">
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'books:list' %}">Books</a></li>
-            <li><a href="{% url 'recent_views' %}">Recent Reviews</a></li>
-        </ul>
-    </nav>
+
+    <header class="navbar navbar-dark mt-5">
+         <nav class=".navbar-nav  d-flex gap-5 mb-5">
+
+                <a class="btn btn-primary" href="{% url 'home' %}">Home</a>
+                <a class="btn btn-primary" href="{% url 'books:list' %}">Books</a>
+                <a class= "btn btn-primary" href="{% url 'recent_views' %}">Recent Reviews</a>
+
+        </nav>
+    </header>
     {% block content %}
     {% endblock %}
 
-    <header>
-
-
-</header>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a href="{% url 'recent_views' %}">View recent reviews</a>
-        <a href="{% url 'books:list' %}">View all books</a>
-    </nav>
 
 
 </body>
