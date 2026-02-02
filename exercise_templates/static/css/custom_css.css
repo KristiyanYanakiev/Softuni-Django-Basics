@@ -30,3 +30,7 @@ nav ul, nav ul li {
 ul {
     list-style: none;
 }
+
+.card {
+    width: 100px;
+}

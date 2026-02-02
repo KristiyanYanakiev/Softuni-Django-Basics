@@ -1,14 +1,25 @@
 {% extends 'common/home_page.html' %}
 {% block content %}
-    <form>
-        {{ search_form }}
-        <button>Submit</button>
-    </form>
+{#    <form>#}
+{#        {{ search_form }}#}
+{#        <button>Submit</button>#}
+{#    </form>#}
     
-    {% for book in books %}
-        {% include 'books/_book_card.html'%}
-    {% empty %}
-    <h2>No books</h2>
-    {% endfor %}
+     <form method="GET" class="form-inline mb-4">
+            <div class="input-group">
+                <input type="text" name="query" class="form-control" placeholder="Search books..." value="{{ request.GET.query|default:'' }}">
+                <div class="input-group-append ms-2">
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+    
+    <div class="row g-4">
+        {% for book in books %}
+            {% include 'books/_book_card.html'%}
+        {% empty %}
+        <h2>No books</h2>
+        {% endfor %}
+    </div>
 {% endblock %}
 

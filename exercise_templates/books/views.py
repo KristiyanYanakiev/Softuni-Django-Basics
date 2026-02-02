@@ -11,7 +11,7 @@ def book_list(request):
     books = Book.objects.all()
 
     search_form = BookSearchForm(request.GET or None)
-    if 'query' in request.GET: #this 'query" is a key in the Dictionnary request.GET correct?
+    if 'query' in request.GET:
         if search_form.is_valid():
             books = Book.objects.filter(
                 Q(title__icontains=search_form.cleaned_data['query'])
