@@ -1,5 +1,10 @@
 {% extends 'common/home_page.html' %}
 {% block content %}
+    <form>
+        {{ search_form }}
+        <button>Submit</button>
+    </form>
+    
     {% for book in books %}
         {% include 'books/_book_card.html'%}
     {% empty %}

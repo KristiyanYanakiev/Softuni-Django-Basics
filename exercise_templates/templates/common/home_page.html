@@ -14,16 +14,16 @@
     >
      <link rel="stylesheet" href="{% static 'css/custom_css.css' %}">
 </head>
-<body class="container .bg-light.bg-gradient min-vh-100">
+<body class="flex-fill container-fluid px-4 py-4">
+
     <h1>Welcome to our Book reviews application!</h1>
 
     <header class="navbar navbar-dark mt-5">
          <nav class=".navbar-nav  d-flex gap-5 mb-5">
-
-                <a class="btn btn-primary" href="{% url 'home' %}">Home</a>
-                <a class="btn btn-primary" href="{% url 'books:list' %}">Books</a>
-                <a class= "btn btn-primary" href="{% url 'recent_views' %}">Recent Reviews</a>
-
+            <a class="btn btn-primary" href="{% url 'home' %}">Home</a>
+            <a class="btn btn-primary" href="{% url 'books:list' %}">Books</a>
+            <a class= "btn btn-primary" href="{% url 'recent_views' %}">Recent Reviews</a>
+            <a class= "btn btn-primary" href="{% url 'books:create' %}">Create a book</a>
         </nav>
     </header>
     {% block content %}

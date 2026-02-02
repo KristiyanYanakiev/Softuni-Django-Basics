@@ -1,0 +1,17 @@
+{% extends 'common/home_page.html' %}
+
+{% block content %}
+    <div class="container">
+      
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group mb-4">
+                    {{ field.label_tag }}
+                    {{ field }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Delete</button>
+        </form>
+    </div>
+{% endblock %}
