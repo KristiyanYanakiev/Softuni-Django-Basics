@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 
+from books.validators import RangeValidator
 
 
 class Book(models.Model):
@@ -15,12 +16,13 @@ class Book(models.Model):
     ]
 
     title = models.CharField(max_length=255, unique=True)
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    price = models.DecimalField(max_digits=6, decimal_places=2,  validators=[RangeValidator(0, 1000, message='Price should be in the range 0 - 1000')])
     isbn = models.CharField(max_length=12, unique=False)
     genre = models.CharField(max_length=50, choices=GENRE_CHOICES)
     publishing_date = models.DateField()
     description = models.TextField()
     image_url = models.URLField()
+    cover_img = models.ImageField(blank=True, null=True)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
     # tags = models.ManyToManyField('Tag') Why it does not work without this line?
@@ -43,7 +45,7 @@ class Tag(models.Model):
 
     books = models.ManyToManyField(
         to='Book'
-    ) # does not this line suffice to create the relationship from both ends?
+    )
 
     def __str__(self) -> str:
         return self.name

@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.forms.models import modelform_factory
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -42,7 +43,10 @@ def book_details(request, pk):
     return render(request, 'books/details.html', context)
 
 def create_book(request: HttpRequest):
-    form = BookCreateForm(request.POST or None)
+    form = BookCreateForm(request.POST or None, request.FILES)
+
+    # BookForm  = modelform_factory(Book, exclude=['slug'])
+    # form = BookForm(request.POST or None, request.FILES)
 
     if request.method == 'POST' and form.is_valid():
         form.save()
