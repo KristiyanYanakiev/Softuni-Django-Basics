@@ -23,7 +23,7 @@ class Book(models.Model):
     description = models.TextField()
     image_url = models.URLField()
     cover_img = models.ImageField(blank=True, null=True)
-    slug = models.SlugField(max_length=255, unique=True, blank=True)
+    slug = models.SlugField(max_length=255, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
     # tags = models.ManyToManyField('Tag') Why it does not work without this line?
 

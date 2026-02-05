@@ -43,7 +43,7 @@ class BookFormBasic(forms.ModelForm):
         price = cleaned.get('price')
 
         if genre == 'Fiction' and price < 10:
-            raise ValidationError('Books of type Fiction cannot have a price less than 10')
+            raise self.add_error('price', 'Books of type Fiction cannot have a price less than 10')
 
         return cleaned
 
