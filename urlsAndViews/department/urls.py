@@ -3,9 +3,12 @@
 from django.urls import path, include
 
 from department.views import home_view, show_department_by_name, index, slug_view, path_view, uuid_view, \
-    view_types_home_view, redirect_view
+    view_types_home_view, redirect_view, IndexView, dashboard_view, MyRedirectView
 
 urlpatterns = [
+    path('', IndexView.as_view(), name='index'),
+    path('dashboard/', dashboard_view, name='dashboard'),
+    path('redirect/', MyRedirectView.as_view()),
     path('<int:pk>/', home_view, name='home'),
     path('redirect/<int:pk>/', redirect_view),
 
