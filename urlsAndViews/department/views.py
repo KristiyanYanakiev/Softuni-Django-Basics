@@ -1,8 +1,14 @@
+from gc import get_objects
+
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import View
-from django.views.generic import TemplateView, RedirectView
+from django.views.generic import TemplateView, RedirectView, CreateView, UpdateView, DeleteView
+
+from department.forms import DepartmentForm
+from department.models import Department
 
 
 # Create your views here.
@@ -30,6 +36,29 @@ class IndexView(TemplateView):
 
 class MyRedirectView(RedirectView):
     pattern_name = 'dashboard'
+
+class AddDepartmentView(CreateView):
+    template_name = 'add_department.html'
+    form_class = DepartmentForm
+    success_url = reverse_lazy('dashboard')
+
+
+class EditDepartmentView(UpdateView):
+    model = Department
+    form_class = DepartmentForm
+    template_name = 'edit_department.html'
+    success_url = reverse_lazy('dashboard')
+
+
+class DeleteDepartmentView(DeleteView):
+    model = Department
+    form_class = DepartmentForm
+    template_name = 'delete_department.html'
+    success_url = reverse_lazy('dashboard')
+
+    def get_initial(self):
+        return self.get_object().__dict__
+
 
 
 def show_department_by_name(request, department_name: str):
