@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Reviews{% endblock %}
+
+{% block content %}
+
+<h1>Reviews</h1>
+
+<a href="{% url 'review_create' %}">Add New Review</a>
+
+<ul>
+    {% for review in reviews %}
+        <li>
+            {{ review.traveler.name }} → {{ review.destination.name }} |
+            Rating: {{ review.rating }} |
+            {{ review.review_type }}
+        </li>
+    {% empty %}
+        <li>No reviews yet.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'home' %}">Back to Home</a>
+{% endblock %}

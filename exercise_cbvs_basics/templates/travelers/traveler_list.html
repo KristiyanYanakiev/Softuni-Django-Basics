@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Travelers{% endblock %}
+
+{% block content %}
+
+<h1>Travelers</h1>
+
+<a href="{% url 'traveler_create' %}">Add New Traveler</a>
+
+<ul>
+    {% for traveler in travelers %}
+        <li>{{ traveler.name }} ({{ traveler.email }})</li>
+    {% empty %}
+        <li>No travelers yet.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'home' %}">Back to Home</a>
+{% endblock %}
