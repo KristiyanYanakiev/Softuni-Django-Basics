@@ -7,8 +7,8 @@
 <h1>Welcome to the Travel App</h1>
 
 <ul>
-    <li><a href="{% url 'traveler_create' %}">Add Traveler</a></li>
-    <li><a href="{% url 'destination_create' %}">Add Destination</a></li>
-    <li><a href="{% url 'review_create' %}">Add Review</a></li>
+    <li>{{ message }}</li>
+    <li>{{ current_time }}</li>
+
 </ul>
 {% endblock %}
