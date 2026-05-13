@@ -3,7 +3,7 @@ from django import forms
 from reviews.models import Traveler
 
 
-class ReviewForm(forms.ModelForm):
+class TravelerForm(forms.ModelForm):
     class Meta:
         model = Traveler
         exclude = ['created_at']
