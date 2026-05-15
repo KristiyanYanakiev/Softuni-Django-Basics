@@ -7,8 +7,11 @@
 <h1>Welcome to the Travel App</h1>
 
 <ul>
-    <li>{{ message }}</li>
+    {% for message in messages %}
+        <li>{{ message }}</li>
+    {% endfor %}
     <li>{{ current_time }}</li>
+
 
 </ul>
 {% endblock %}
