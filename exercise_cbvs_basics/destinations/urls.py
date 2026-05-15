@@ -1,16 +1,9 @@
-# templates/
-# │
-# ├── base.html
-# ├── home.html
-# │
-# ├── travelers/
-# │   ├── traveler_form.html
-# │   └── traveler_list.html
-# │
-# ├── destinations/
-# │   ├── destination_form.html
-# │   └── destination_list.html
-# │
-# └── reviews/
-#     ├── review_form.html
-#     └── review_list.html
+from django.urls import path
+
+from destinations.views import DestinationCreateView, DestinationDeleteView
+
+urlpatterns = [
+    path('destination-create/', DestinationCreateView.as_view(), name ='destination-create'),
+    path('<int:pk>/delete/', DestinationDeleteView.as_view(), name='destination-delete')
+
+]
