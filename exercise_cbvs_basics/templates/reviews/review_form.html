@@ -6,6 +6,8 @@
 
 <h1>Add Review</h1>
 
+    <h2>{{ message }}</h2>
+
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

@@ -6,10 +6,10 @@
 
 <h1>Destinations</h1>
 
-<a href="{% url 'destination_create' %}">Add New Destination</a>
+<a href="{% url 'destination-create' %}">Add New Destination</a>
 
 <ul>
-    {% for destination in destinations %}
+    {% for destination in destination_list %}
         <li>
             {{ destination.name }} - {{ destination.get_country_display }} - ${{ destination.price }}
         </li>
