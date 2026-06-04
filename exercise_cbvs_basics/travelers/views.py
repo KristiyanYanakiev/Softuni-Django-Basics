@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.views.generic import FormView, CreateView, RedirectView, UpdateView
+from django.views.generic import FormView, CreateView, RedirectView, UpdateView, DetailView
 
 from travelers.forms import TravelerForm
 from travelers.models import Traveler
@@ -36,3 +36,9 @@ class TravelerUpdate(UpdateView):
         form.save()
         print('Object updated')
         return super().form_valid(form)
+
+
+class TravelerDetailView(DetailView):
+    model = Traveler
+    template_name = 'travelers/detail.html'
+    context_object_name = 'traveler'

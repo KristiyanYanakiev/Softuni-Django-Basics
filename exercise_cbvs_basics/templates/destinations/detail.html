@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ destination.name }}</title>
+</head>
+<body>
+
+    <h1>{{ destination.name }}</h1>
+
+    <p><strong>Country:</strong> {{ destination.get_country_display }}</p>
+    <p><strong>Price:</strong> ${{ destination.price }}</p>
+    <p><strong>Duration:</strong> {{ destination.duration_days }} day{{ destination.duration_days|pluralize }}</p>
+
+    <p>
+        <strong>Status:</strong>
+        {% if destination.is_available %}
+            Available
+        {% else %}
+            Not Available
+        {% endif %}
+    </p>
+
+    <h3>Description</h3>
+    <p>{{ destination.description }}</p>
+    
+     <h3>Reviews</h3>
+    {% if destination.reviews.all %}
+        <ul>
+            {% for review in destination.reviews.all %}
+                <li>
+                    Traveler: {{ review.traveler.name }}, Review: ({{ review.rating }})
+                </li>
+            {% endfor %}
+            <li>
+                    Average Rating: {{ destination.avg_rating|floatformat:2 }}
+                </li>
+            
+        </ul>
+    {% else %}
+        <p>No Reviews for this destination.</p>
+    {% endif %}
+
+    <h3>Travelers</h3>
+    {% if destination.travelers.all %}
+        <ul>
+            {% for traveler in destination.travelers.all %}
+                <li>
+                    {{ traveler.name }} ({{ traveler.email }})
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No travelers assigned.</p>
+    {% endif %}
+
+    <hr>
+
+    <p><strong>Slug:</strong> {{ destination.slug }}</p>
+    <p><strong>Created:</strong> {{ destination.created_at }}</p>
+    <p><strong>Last Updated:</strong> {{ destination.updated_at }}</p>
+
+    <a href="{% url 'home' %}">Back to Home</a>
+
+</body>
+</html>

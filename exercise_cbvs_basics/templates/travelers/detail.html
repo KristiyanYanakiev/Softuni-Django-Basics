@@ -1,0 +1,31 @@
+<!-- templates/traveler/traveler_detail.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ traveler.name }}</title>
+</head>
+<body>
+    <h1>{{ traveler.name }}</h1>
+
+    <p><strong>Email:</strong> {{ traveler.email }}</p>
+    <p><strong>Age:</strong> {{ traveler.age }}</p>
+    <p><strong>Country:</strong> {{ traveler.get_country_display }}</p>
+    <p><strong>Registered:</strong> {{ traveler.registered_at }}</p>
+
+    <p><strong>Bio:</strong></p>
+    <p>{{ traveler.bio|default:"No bio provided." }}</p>
+
+    <p>
+        <strong>Status:</strong>
+        {% if traveler.is_active %}
+            Active
+        {% else %}
+            Inactive
+        {% endif %}
+    </p>
+
+    <a href="{% url 'home' %}">Back to Home</a>
+</body>
+</html>
