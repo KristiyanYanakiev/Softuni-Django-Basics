@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Destinations</title>
+</head>
+<body>
+
+    <h1>All Destinations</h1>
+
+    {% if destinations %}
+        <ul>
+            {% for destination in destinations %}
+                <li>
+                    <h2>
+                        <a href="{% url 'destinations:details' destination.pk %}">
+                            {{ destination.name }}
+                        </a>
+                    </h2>
+
+                    <p><strong>Country:</strong> {{ destination.get_country_display }}</p>
+                    <p><strong>Price:</strong> ${{ destination.price }}</p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        {% if destination.is_available %}
+                            Available
+                        {% else %}
+                            Not Available
+                        {% endif %}
+                    </p>
+                
+                    
+
+                </li>
+            {% endfor %}
+        
+             <p>
+                 <strong> Total Available Destinations: {{ total_available_destinations }}</strong>
+             </p>
+        </ul>
+    {% else %}
+        <p>No destinations found.</p>
+    {% endif %}
+
+</body>
+</html>

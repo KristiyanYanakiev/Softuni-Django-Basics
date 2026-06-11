@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.db.models.aggregates import Avg
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, DetailView
 
@@ -40,5 +40,23 @@ class DestinationDetailView(DetailView):
                 .prefetch_related('reviews', 'travelers')
                 .annotate(avg_rating=Avg('reviews__rating')))
 
+
+class DestinationListView(ListView):
+    context_object_name = 'destinations'
+    template_name = 'destinations/list.html'
+    model = Destination
+
+    def get_queryset(self):
+        return Destination.objects.filter(is_available=True)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        total_available_destinations = Destination.objects.filter(is_available=True).count()
+
+        context['total_available_destinations'] = total_available_destinations
+
+
+        return context
 
 

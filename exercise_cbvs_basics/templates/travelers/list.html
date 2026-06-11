@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+     <h1>All Travelers</h1>
+     
+     <form action="" method="GET">
+        <input 
+            type="search" 
+            name="q" 
+            placeholder="Search..." 
+           
+        >
+        <button type="submit" class="search-button">Search</button>
+    </form>
+
+    {% if travelers %}
+        <ul>
+            {% for traveler in travelers %}
+                <li>
+                    <p>Traveler name: {{ traveler.name }}</p>
+                    <p>Bio: {{ traveler.bio }}</p>
+                    <p>Country: {{ traveler.country }}</p>
+                </li>
+            {% endfor %}
+
+
+        </ul>
+    {% else %}
+        <p>No travelers found.</p>
+    {% endif %}
+</body>
+</html>

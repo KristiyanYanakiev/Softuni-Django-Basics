@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.views.generic import FormView, CreateView, RedirectView, UpdateView, DetailView
+from django.views.generic import FormView, CreateView, RedirectView, UpdateView, DetailView, ListView
 
 from travelers.forms import TravelerForm
 from travelers.models import Traveler
@@ -42,3 +42,21 @@ class TravelerDetailView(DetailView):
     model = Traveler
     template_name = 'travelers/detail.html'
     context_object_name = 'traveler'
+
+
+class TravelerListView(ListView):
+    model = Traveler
+    template_name = 'travelers/list.html'
+    context_object_name = 'travelers'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+
+        if query:
+            queryset = Traveler.objects.filter(name__icontains=query).filter(age__gte=21)
+        else:
+            queryset = Traveler.objects.filter(age__gte=21)
+
+
+        return queryset
+

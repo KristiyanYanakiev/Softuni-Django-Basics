@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 
 from destinations.models import Destination
 from reviews.forms import ReviewForm
+from reviews.models import Review
 
 
 # Create your views here.
@@ -28,6 +29,12 @@ class AddReview(CreateView):
         messages.success(self.request, 'Review successfully submitted')
 
         return super().form_valid(form)
+
+
+class ReviewListView(ListView):
+    model = Review
+    template_name = 'reviews/list.html'
+    context_object_name = 'reviews'
 
 
 
