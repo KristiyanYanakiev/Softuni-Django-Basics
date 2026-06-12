@@ -35,6 +35,29 @@ class ReviewListView(ListView):
     model = Review
     template_name = 'reviews/list.html'
     context_object_name = 'reviews'
+    paginate_by = 1
+
+    def get_queryset(self):
+
+        qs = Review.objects.filter(is_verified=True).order_by('created_at')
+
+        review_type = self.request.GET.get('review_type')
+
+        if review_type:
+            qs = qs.filter(review_type=review_type)
+
+
+        return qs
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        page_number = self.request.GET.get('page', 1)
+        context['page_number'] = page_number
+
+        return context
+
+
+
 
 
 

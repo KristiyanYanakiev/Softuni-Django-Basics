@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.paginator import PageNotAnInteger, EmptyPage
 from django.db.models.aggregates import Avg
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
@@ -43,11 +44,13 @@ class DestinationDetailView(DetailView):
 
 class DestinationListView(ListView):
     context_object_name = 'destinations'
-    template_name = 'destinations/list.html'
+    # template_name = 'destinations/list.html'
     model = Destination
+    paginate_by = 1
 
-    def get_queryset(self):
-        return Destination.objects.filter(is_available=True)
+
+    # def get_queryset(self):
+    #     return Destination.objects.filter(is_available=True)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -59,4 +62,11 @@ class DestinationListView(ListView):
 
         return context
 
-
+    def get_template_names(self):
+        traveler_country = self.request.GET.get('traveler_country')
+        if traveler_country:
+            if traveler_country.upper() in ['BG', 'GR', 'TR']:
+                print("--- DEBUG: Condition Met! Attempting Balkan Template ---")
+                return ['destinations/balkan_list.html']
+        print("--- DEBUG: Condition Failed. Falling back to default list ---")
+        return ['destinations/list.html']

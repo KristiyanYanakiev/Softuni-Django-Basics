@@ -14,9 +14,8 @@
         <ul>
             {% for review in reviews %}
                 <li>
-                    <p>Traveler name: {{ traveler.name }}</p>
-                    <p>Bio: {{ traveler.bio }}</p>
-                    <p>Country: {{ traveler.country }}</p>
+                    <p>{{review.title}}</p>
+                  
                 </li>
             {% endfor %}
 
@@ -25,3 +24,37 @@
     {% else %}
         <p>No travelers found.</p>
     {% endif %}
+
+{% if page_obj.has_other_pages %}
+    <div class="pagination" style="display: flex; gap: 15px; align-items: center; justify-content: center; margin-top: 30px;">
+        
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" 
+               style="padding: 8px 16px; background: #0066cc; color: white; text-decoration: none; border-radius: 4px; font-size: 14px;">
+               &laquo; Previous
+            </a>
+        {% else %}
+            <span style="padding: 8px 16px; color: #ccc; border: 1px solid #eee; border-radius: 4px; font-size: 14px;">
+                &laquo; Previous
+            </span>
+        {% endif %}
+
+        <span class="current" style="font-size: 14px; color: #555;">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" 
+               style="padding: 8px 16px; background: #0066cc; color: white; text-decoration: none; border-radius: 4px; font-size: 14px;">
+               Next &raquo;
+            </a>
+        {% else %}
+            <span style="padding: 8px 16px; color: #ccc; border: 1px solid #eee; border-radius: 4px; font-size: 14px;">
+                Next &raquo;
+            </span>
+        {% endif %}
+
+    </div>
+    {% endif %}
+
+    <p>You are on page: {{ page_number }}</p>
