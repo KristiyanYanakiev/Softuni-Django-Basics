@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, DetailView
 
+from common.mixins import AgeRestrictionMixin
 from destinations.forms import DestinationForm
 from destinations.models import Destination
 
@@ -42,7 +43,7 @@ class DestinationDetailView(DetailView):
                 .annotate(avg_rating=Avg('reviews__rating')))
 
 
-class DestinationListView(ListView):
+class DestinationListView(AgeRestrictionMixin, ListView):
     context_object_name = 'destinations'
     # template_name = 'destinations/list.html'
     model = Destination

@@ -7,6 +7,7 @@ from django.utils.timezone import now
 from django.views import View
 from django.views.generic import TemplateView, RedirectView
 
+from common.mixins import AgeRestrictionMixin
 from destinations.models import Destination
 from travelers.models import Traveler
 
@@ -20,7 +21,7 @@ class BasicView(View):
         return HttpResponse("Post was called")
 
 
-class HomeView(TemplateView):
+class HomeView(AgeRestrictionMixin, TemplateView):
     template_name = 'home.html'
 
     def get_context_data(self, **kwargs):

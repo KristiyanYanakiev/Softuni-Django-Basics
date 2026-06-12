@@ -1,15 +1,21 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView
 
+from common.mixins import AgeRestrictionMixin, RecentObjectsMixin
 from destinations.models import Destination
 from reviews.forms import ReviewForm
 from reviews.models import Review
 
 
 # Create your views here.
-class AddReview(CreateView):
+# @method_decorator(login_required(login_url='home'), name='dispatch')
+
+class AddReview(LoginRequiredMixin, CreateView):
     template_name = 'reviews/review_form.html'
     form_class = ReviewForm
     success_url = reverse_lazy('home')
@@ -30,8 +36,9 @@ class AddReview(CreateView):
 
         return super().form_valid(form)
 
-
-class ReviewListView(ListView):
+class ReviewListView(AgeRestrictionMixin, RecentObjectsMixin, ListView):
+    # http_method_names = ['get']
+    login_url = 'home'
     model = Review
     template_name = 'reviews/list.html'
     context_object_name = 'reviews'
@@ -55,6 +62,14 @@ class ReviewListView(ListView):
         context['page_number'] = page_number
 
         return context
+
+    def render_to_response(self, context, **response_kwargs):
+
+        response = super().render_to_response(context, **response_kwargs)
+        print("Here is my context:")
+        print(context)
+
+        return response
 
 
 
