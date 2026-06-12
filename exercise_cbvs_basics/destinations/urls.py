@@ -1,7 +1,7 @@
 from django.urls import path
 
 from destinations.views import DestinationCreateView, DestinationDeleteView, DestinationsList, DestinationDetailView, \
-    DestinationListView
+    DestinationListView, DestinationByCountryListView
 
 app_name = 'destinations'
 urlpatterns = [
@@ -9,6 +9,7 @@ urlpatterns = [
     path('destinations-list/', DestinationsList.as_view(), name = 'destinations-list'),
     path('<int:pk>/delete/', DestinationDeleteView.as_view(), name='destination-delete'),
     path('<int:pk>/details/', DestinationDetailView.as_view(), name='details'),
-    path('list/', DestinationListView.as_view(), name='list')
+    path('list/', DestinationListView.as_view(), name='list'),
+    path('list-by-country/', DestinationByCountryListView.as_view(), name='list-by-country')
 
 ]

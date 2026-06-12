@@ -1,0 +1,2 @@
+class TravelerActivityMixin:
+    pass

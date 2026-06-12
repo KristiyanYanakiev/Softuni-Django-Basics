@@ -18,9 +18,10 @@ class AgeRestrictionMixin:
 
 
 class RecentObjectsMixin:
-    def get_query_set(self):
-        qs = super().get_queryset().order_by('-created_at')[:1]
+    limit = 1
+    def get_queryset(self):
+        qs = super().get_queryset()
 
-        return qs
+        return qs.order_by('-created_at')[:self.limit]
 
 

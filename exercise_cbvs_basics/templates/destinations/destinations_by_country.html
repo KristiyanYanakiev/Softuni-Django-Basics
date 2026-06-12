@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Destinations</title>
+</head>
+<body>
+    {% if country %}
+    <h1>Here are the destinations in {{ country}}</h1>
+    {% else %}
+    <h1>Here are our destinations</h1>
+    {% endif %}
+
+    {% if destinations %}
+        <ul>
+            {% for destination in destinations %}
+                <li>
+                    <h2>
+                        <a href="{% url 'destinations:details' destination.pk %}">
+                            {{ destination.name }}
+                        </a>
+                    </h2>
+
+
+                    <p><strong>Price:</strong> ${{ destination.price }}</p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        {% if destination.is_available %}
+                            Available
+                        {% else %}
+                            Not Available
+                        {% endif %}
+                    </p>
+
+
+
+                </li>
+        {% empty %}
+        <div class="empty-state" style="text-align: center; padding: 40px 20px; border: 2px dashed #ccc; border-radius: 8px; margin-top: 20px;">
+            <div style="font-size: 48px; margin-bottom: 15px;">📍</div>
+
+            <h3 style="margin: 0 0 10px 0; color: #333;">No destinations found</h3>
+
+            <p style="margin: 0 0 20px 0; color: #666; font-size: 14px;">
+                We couldn't find anything matching your current filters or search terms. Try adjusting your spelling or clearing your active filters.
+            </p>
+
+            <a href="?" style="display: inline-block; padding: 10px 20px; background-color: #0066cc; color: white; text-decoration: none; border-radius: 6px; font-size: 14px;">
+                Clear All Filters
+            </a>
+        </div>
+            {% endfor %}
+
+             <p>
+                 <strong> Total Available Destinations: {{ total_available_destinations }}</strong>
+             </p>
+        </ul>
+    {% else %}
+        <p>No destinations found.</p>
+    {% endif %}

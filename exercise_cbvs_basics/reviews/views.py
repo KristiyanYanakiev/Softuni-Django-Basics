@@ -36,18 +36,17 @@ class AddReview(LoginRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
-class ReviewListView(AgeRestrictionMixin, RecentObjectsMixin, ListView):
+class ReviewListView(AgeRestrictionMixin,RecentObjectsMixin, ListView):
     # http_method_names = ['get']
     login_url = 'home'
     model = Review
     template_name = 'reviews/list.html'
     context_object_name = 'reviews'
-    paginate_by = 1
+    paginate_by = 3
 
     def get_queryset(self):
 
-        qs = Review.objects.filter(is_verified=True).order_by('created_at')
-
+        qs = Review.objects.filter(is_verified=True).order_by('pk')
         review_type = self.request.GET.get('review_type')
 
         if review_type:
@@ -63,14 +62,19 @@ class ReviewListView(AgeRestrictionMixin, RecentObjectsMixin, ListView):
 
         return context
 
-    def render_to_response(self, context, **response_kwargs):
+    # def render_to_response(self, context, **response_kwargs):
+    #
+    #     response = super().render_to_response(context, **response_kwargs)
+    #     print("Here is my context:")
+    #     print(context)
+    #
+    #     return response
 
-        response = super().render_to_response(context, **response_kwargs)
-        print("Here is my context:")
-        print(context)
 
-        return response
+class VerifiedReviewListView(ReviewListView):
+    def get_queryset(self):
 
+        return super().get_queryset().filter(is_verified=True)
 
 
 

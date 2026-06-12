@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, DetailView
 
-from common.mixins import AgeRestrictionMixin
+from common.mixins import AgeRestrictionMixin, RecentObjectsMixin
 from destinations.forms import DestinationForm
 from destinations.models import Destination
 
@@ -43,11 +43,11 @@ class DestinationDetailView(DetailView):
                 .annotate(avg_rating=Avg('reviews__rating')))
 
 
-class DestinationListView(AgeRestrictionMixin, ListView):
+class DestinationListView(AgeRestrictionMixin, RecentObjectsMixin, ListView):
     context_object_name = 'destinations'
     # template_name = 'destinations/list.html'
     model = Destination
-    paginate_by = 1
+    # paginate_by = 1
 
 
     # def get_queryset(self):
@@ -71,3 +71,23 @@ class DestinationListView(AgeRestrictionMixin, ListView):
                 return ['destinations/balkan_list.html']
         print("--- DEBUG: Condition Failed. Falling back to default list ---")
         return ['destinations/list.html']
+
+
+class DestinationByCountryListView(ListView):
+    model = Destination
+    template_name = 'destinations/destinations_by_country.html'
+    context_object_name = 'destinations'
+
+    def get_queryset(self):
+
+        country = self.request.GET.get('country')
+        qs = Destination.objects.all()
+        if country:
+            qs = qs.filter(country=country)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['country'] = self.request.GET.get('country')
+        print(context)
+        return context
