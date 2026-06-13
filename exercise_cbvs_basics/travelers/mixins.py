@@ -5,8 +5,11 @@ from travelers.models import Traveler
 
 class TravelerActivityMixin:
     def get_travelers_reviews(self, traveler):
-        reviews = traveler.reviews.all()
 
-        return reviews
+        return traveler.reviews.all()
+
+    def get_travelers_destinations(self, traveler):
+
+        return traveler.destinations.all()
 
 

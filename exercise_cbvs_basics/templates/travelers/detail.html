@@ -36,6 +36,17 @@
             <p>No reviews yet</p>
         {% endif %}
     </ul>
+    
+     <p>Traveler's Destinations:</p>
+    <ul>
+        {% if traveler.destinations %}
+        {% for destination in traveler.destinations.all %}
+        <li>{{ destination }}</li>
+        {% endfor %}
+        {% else %}
+            <p>No destinations yet</p>
+        {% endif %}
+    </ul>
 
     <a href="{% url 'home' %}">Back to Home</a>
 </body>

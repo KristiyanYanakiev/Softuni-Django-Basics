@@ -48,7 +48,12 @@ class TravelerDetailView(TravelerActivityMixin, DetailView):
         traveler = super().get_object()
         context = super().get_context_data(**kwargs)
 
-        context["reviews"] = traveler.get_travelers_reviews(traveler)
+        context["reviews"] = self.get_travelers_reviews(traveler)
+        context["destinations"] = self.get_travelers_destinations(traveler)
+        print(context['reviews'])
+        print(context['destinations'])
+
+        return context
 
 
 class TravelerListView(ListView):
