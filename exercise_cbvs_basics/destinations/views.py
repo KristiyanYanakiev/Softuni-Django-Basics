@@ -7,6 +7,7 @@ from django.views.generic import CreateView, DeleteView, ListView, DetailView
 
 from common.mixins import AgeRestrictionMixin, RecentObjectsMixin
 from destinations.forms import DestinationForm
+from destinations.mixins import DestinationAvailabilityMixin
 from destinations.models import Destination
 
 
@@ -43,25 +44,24 @@ class DestinationDetailView(DetailView):
                 .annotate(avg_rating=Avg('reviews__rating')))
 
 
-class DestinationListView(AgeRestrictionMixin, RecentObjectsMixin, ListView):
+class DestinationListView(DestinationAvailabilityMixin, AgeRestrictionMixin, ListView):
     context_object_name = 'destinations'
     # template_name = 'destinations/list.html'
     model = Destination
     # paginate_by = 1
 
+    def get_queryset(self):
+        return self.get_available_destinations()
 
-    # def get_queryset(self):
-    #     return Destination.objects.filter(is_available=True)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        total_available_destinations = Destination.objects.filter(is_available=True).count()
-
-        context['total_available_destinations'] = total_available_destinations
-
-
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #
+    #     total_available_destinations = Destination.objects.filter(is_available=True).count()
+    #
+    #     context['total_available_destinations'] = total_available_destinations
+    #
+    #
+    #     return context
 
     def get_template_names(self):
         traveler_country = self.request.GET.get('traveler_country')
@@ -73,7 +73,7 @@ class DestinationListView(AgeRestrictionMixin, RecentObjectsMixin, ListView):
         return ['destinations/list.html']
 
 
-class DestinationByCountryListView(ListView):
+class DestinationByCountryListView(DestinationAvailabilityMixin, ListView):
     model = Destination
     template_name = 'destinations/destinations_by_country.html'
     context_object_name = 'destinations'
@@ -81,7 +81,7 @@ class DestinationByCountryListView(ListView):
     def get_queryset(self):
 
         country = self.request.GET.get('country')
-        qs = Destination.objects.all()
+        qs = self.get_available_destinations()
         if country:
             qs = qs.filter(country=country)
         return qs
