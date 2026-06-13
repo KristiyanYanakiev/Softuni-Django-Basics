@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView, CreateView, RedirectView, UpdateView, DetailView, ListView
 
 from travelers.forms import TravelerForm
+from travelers.mixins import TravelerActivityMixin
 from travelers.models import Traveler
 
 
@@ -38,10 +39,16 @@ class TravelerUpdate(UpdateView):
         return super().form_valid(form)
 
 
-class TravelerDetailView(DetailView):
+class TravelerDetailView(TravelerActivityMixin, DetailView):
     model = Traveler
     template_name = 'travelers/detail.html'
     context_object_name = 'traveler'
+
+    def get_context_data(self, **kwargs):
+        traveler = super().get_object()
+        context = super().get_context_data(**kwargs)
+
+        context["reviews"] = traveler.get_travelers_reviews(traveler)
 
 
 class TravelerListView(ListView):

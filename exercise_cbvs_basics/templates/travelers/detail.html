@@ -25,6 +25,17 @@
             Inactive
         {% endif %}
     </p>
+    
+    <p>Traveler's Reviews:</p>
+    <ul>
+        {% if traveler.reviews %}
+        {% for review in traveler.reviews.all %}
+        <li>{{ review }}</li>
+        {% endfor %}
+        {% else %}
+            <p>No reviews yet</p>
+        {% endif %}
+    </ul>
 
     <a href="{% url 'home' %}">Back to Home</a>
 </body>
