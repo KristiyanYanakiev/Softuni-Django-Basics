@@ -23,6 +23,7 @@ class Traveler(models.Model):
     # Extra fields
     bio = models.TextField(blank=True)
     is_active = models.BooleanField(default=True)
+    view_count = models.PositiveIntegerField()
 
     def clean(self):
         # Age validation

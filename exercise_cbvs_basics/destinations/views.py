@@ -1,8 +1,11 @@
+from datetime import timedelta
+
 from django.contrib import messages
 from django.core.paginator import PageNotAnInteger, EmptyPage
 from django.db.models.aggregates import Avg
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import CreateView, DeleteView, ListView, DetailView
 
 from common.mixins import AgeRestrictionMixin, RecentObjectsMixin
@@ -91,3 +94,15 @@ class DestinationByCountryListView(DestinationAvailabilityMixin, ListView):
         context['country'] = self.request.GET.get('country')
         print(context)
         return context
+
+
+class RecentDestinationsView(ListView):
+    model = Destination
+    template_name = 'destinations/recent.html'
+    context_object_name = 'recent_destinations'
+
+    def get_queryset(self):
+        now = timezone.now()
+        seven_days_ago = now - timedelta(days=7)
+
+        return Destination.objects.filter(updated_at__gte=seven_days_ago).order_by('-updated_at')

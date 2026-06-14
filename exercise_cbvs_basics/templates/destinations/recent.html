@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Recently Updated Destinations</title>
+</head>
+<body>
+
+    <h1>Destinations Updated in the Last 7 Days</h1>
+
+    <ul>
+        {% for destination in recent_destinations %}
+            <li>
+                <strong>{{ destination.name }}</strong> ({{ destination.get_country_display }}) <br>
+                Price: ${{ destination.price }} <br>
+                <small>Last updated: {{ destination.updated_at|date:"F j, Y, g:i a" }}</small>
+            </li>
+            <hr>
+        {% empty %}
+            <li>No destinations have been modified or added in the last week.</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

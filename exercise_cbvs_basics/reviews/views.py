@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView
 
-from common.mixins import AgeRestrictionMixin, RecentObjectsMixin
+from common.mixins import AgeRestrictionMixin, RecentObjectsMixin, CustomAccessMixin
 from destinations.models import Destination
 from reviews.forms import ReviewForm
 from reviews.models import Review
@@ -36,13 +36,14 @@ class AddReview(LoginRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
-class ReviewListView(AgeRestrictionMixin,RecentObjectsMixin, ListView):
+
+
+class ReviewListView(AgeRestrictionMixin, CustomAccessMixin, ListView):
     # http_method_names = ['get']
     login_url = 'home'
     model = Review
     template_name = 'reviews/list.html'
     context_object_name = 'reviews'
-    paginate_by = 3
 
     def get_queryset(self):
 
@@ -61,6 +62,11 @@ class ReviewListView(AgeRestrictionMixin,RecentObjectsMixin, ListView):
         context['page_number'] = page_number
 
         return context
+
+    def get_paginate_by(self, queryset):
+        per_page = self.request.GET.get('per_page', 1)
+
+        return per_page
 
     # def render_to_response(self, context, **response_kwargs):
     #

@@ -1,6 +1,10 @@
+import datetime
+from urllib.error import HTTPError
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
+from django.utils import timezone
 
 from travelers.models import Traveler
 
@@ -24,4 +28,13 @@ class RecentObjectsMixin:
 
         return qs.order_by('-created_at')[:self.limit]
 
+
+class CustomAccessMixin:
+    start_time = datetime.time(4, 0)
+    end_time = datetime.time(5, 0)
+
+    current_time = timezone.localtime().time()
+
+    if not start_time <= current_time <= end_time:
+        print("Outside working hours")
 
