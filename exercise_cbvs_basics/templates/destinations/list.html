@@ -8,6 +8,8 @@
 
     <h1>All Destinations</h1>
 
+    <h4>Total number of pages: {{ total_pages }}</h4>
+
     {% if destinations %}
         <ul>
             {% for destination in destinations %}
@@ -29,26 +31,26 @@
                             Not Available
                         {% endif %}
                     </p>
-                
-                    
+
+
 
                 </li>
         {% empty %}
         <div class="empty-state" style="text-align: center; padding: 40px 20px; border: 2px dashed #ccc; border-radius: 8px; margin-top: 20px;">
             <div style="font-size: 48px; margin-bottom: 15px;">📍</div>
-            
+
             <h3 style="margin: 0 0 10px 0; color: #333;">No destinations found</h3>
-            
+
             <p style="margin: 0 0 20px 0; color: #666; font-size: 14px;">
                 We couldn't find anything matching your current filters or search terms. Try adjusting your spelling or clearing your active filters.
             </p>
-            
+
             <a href="?" style="display: inline-block; padding: 10px 20px; background-color: #0066cc; color: white; text-decoration: none; border-radius: 6px; font-size: 14px;">
                 Clear All Filters
             </a>
         </div>
             {% endfor %}
-        
+
              <p>
                  <strong> Total Available Destinations: {{ total_available_destinations }}</strong>
              </p>
@@ -57,37 +59,38 @@
         <p>No destinations found.</p>
     {% endif %}
 
-    {% if page_obj.has_other_pages %}
-<div class="pagination" style="display: flex; gap: 15px; align-items: center; margin-top: 20px;">
-    
-    {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}" 
-           style="padding: 8px 16px; background: #0066cc; color: white; text-decoration: none; border-radius: 4px;">
-           &laquo; Previous
-        </a>
-    {% else %}
-        <span style="padding: 8px 16px; color: #ccc; border: 1px solid #eee; border-radius: 4px;">
-            &laquo; Previous
-        </span>
+
+ {% if page_obj.has_other_pages %}
+        <div class="pagination" style="display: flex; gap: 15px; align-items: center; margin-top: 20px; font-family: sans-serif;">
+
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.country %}&country={{ request.GET.country }}{% endif %}"
+                   style="padding: 8px 16px; background: #0066cc; color: white; text-decoration: none; border-radius: 4px;">
+                   &laquo; Previous
+                </a>
+            {% else %}
+                <span style="padding: 8px 16px; color: #ccc; border: 1px solid #eee; border-radius: 4px;">
+                    &laquo; Previous
+                </span>
+            {% endif %}
+
+            <span class="current" style="font-weight: bold; color: #333;">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.country %}&country={{ request.GET.country }}{% endif %}"
+                   style="padding: 8px 16px; background: #0066cc; color: white; text-decoration: none; border-radius: 4px;">
+                   Next &raquo;
+                </a>
+            {% else %}
+                <span style="padding: 8px 16px; color: #ccc; border: 1px solid #eee; border-radius: 4px;">
+                    Next &raquo;
+                </span>
+            {% endif %}
+
+        </div>
     {% endif %}
-
-    <span class="current">
-        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-    </span>
-
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}" 
-           style="padding: 8px 16px; background: #0066cc; color: white; text-decoration: none; border-radius: 4px;">
-           Next &raquo;
-        </a>
-    {% else %}
-        <span style="padding: 8px 16px; color: #ccc; border: 1px solid #eee; border-radius: 4px;">
-            Next &raquo;
-        </span>
-    {% endif %}
-
-</div>
-{% endif %}
 
 </body>
 </html>

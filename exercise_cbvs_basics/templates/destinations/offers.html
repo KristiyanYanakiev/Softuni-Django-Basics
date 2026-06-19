@@ -1,0 +1,13 @@
+<h2>🔥 Today's Special Offers 🔥</h2>
+
+<ul>
+    {% for destination in offers %}
+        <li>
+            <strong>{{ destination.name }}</strong> - ${{ destination.price }} <br>
+            ⭐ Average Rating: {{ destination.avg_rating|stringformat:".2f" }}
+        </li>
+        <hr>
+    {% empty %}
+        <li>No special offers available right now. Check back later!</li>
+    {% endfor %}
+</ul>

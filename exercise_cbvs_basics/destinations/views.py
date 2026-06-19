@@ -1,12 +1,13 @@
 from datetime import timedelta
 
 from django.contrib import messages
-from django.core.paginator import PageNotAnInteger, EmptyPage
+from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from django.db.models.aggregates import Avg
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import CreateView, DeleteView, ListView, DetailView
+from django.views.generic import CreateView, DeleteView, ListView, DetailView, TemplateView
 
 from common.mixins import AgeRestrictionMixin, RecentObjectsMixin
 from destinations.forms import DestinationForm
@@ -47,14 +48,13 @@ class DestinationDetailView(DetailView):
                 .annotate(avg_rating=Avg('reviews__rating')))
 
 
-class DestinationListView(DestinationAvailabilityMixin, AgeRestrictionMixin, ListView):
+class DestinationListView(AgeRestrictionMixin, ListView):
     context_object_name = 'destinations'
     # template_name = 'destinations/list.html'
     model = Destination
-    # paginate_by = 1
+    paginate_by = 3
 
-    def get_queryset(self):
-        return self.get_available_destinations()
+
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -106,3 +106,68 @@ class RecentDestinationsView(ListView):
         seven_days_ago = now - timedelta(days=7)
 
         return Destination.objects.filter(updated_at__gte=seven_days_ago).order_by('-updated_at')
+
+
+class FeaturedDestinationListView(DestinationListView):
+    def get_queryset(self):
+        return Destination.objects.order_by('reviews__rating')[:2]
+
+
+class DestinationJSONTestView(DetailView):
+    model = Destination
+
+    def render_to_response(self, context, **response_kwargs):
+        destination = context['object']
+
+        data = {
+            "pk": destination.pk,
+            "name": destination.name,
+            "price": float(destination.price),
+            "is_available": destination.is_available,
+        }
+
+        # 3. Return a JsonResponse instead of rendering an HTML template
+        return JsonResponse(data)
+
+
+class DestinationsOffers(TemplateView):
+
+    template_name = 'destinations/offers.html'
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs
+                                           )
+        context['offers'] = Destination.objects.annotate(
+            avg_rating=Avg('reviews__rating')
+        ).filter(
+            avg_rating__gte=4.50,
+            is_available=True
+        ).order_by('-avg_rating')
+
+
+        return context
+
+
+class DestinationsListByPrice(DestinationListView):
+
+    paginate_by = 2
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        query = self.request.GET.get('price')
+        if query:
+            qs = qs.filter(price__lte=query)
+
+        return qs
+
+    def get_paginate_by(self, queryset):
+
+        return self.paginate_by
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['total_pages'] = context['page_obj'].paginator.num_pages
+
+
+        return context
